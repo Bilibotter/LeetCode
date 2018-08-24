@@ -1,3 +1,22 @@
+# 88.3%，本人解
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        s1, s3, max0 = set(), '', 0
+        # if len(s) == 0:
+        #     return 0
+        max0 = 0
+        for j in range(len(s)):
+            if s[j] not in s1:
+                s1.add(s[j])
+                s3 += s[j]
+            else:
+                max0 = len(s3) if max0 < len(s3) else max0
+                s3 = s3[s3.find(s[j])+1:] + s[j]
+        return max(max0, len(s3))
+
+s = Solution()
+print(s.lengthOfLongestSubstring(''))
+
 # 不回頭算法
 '''最短
 class Solution(object):
@@ -35,22 +54,3 @@ class Solution:
                 maxLen = end-start
         return maxLen
 '''
-
-# 88.3%
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        s1, s3, max0 = set(), '', 0
-        # if len(s) == 0:
-        #     return 0
-        max0 = 0
-        for j in range(len(s)):
-            if s[j] not in s1:
-                s1.add(s[j])
-                s3 += s[j]
-            else:
-                max0 = len(s3) if max0 < len(s3) else max0
-                s3 = s3[s3.find(s[j])+1:] + s[j]
-        return max(max0, len(s3))
-
-s = Solution()
-print(s.lengthOfLongestSubstring(''))
