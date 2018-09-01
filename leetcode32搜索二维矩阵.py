@@ -7,6 +7,7 @@ class Solution:
         :type target: int
         :rtype: bool
         """
+        # 测试写的太恶心了，错误输入都不算异常
         try:
             for num, line in enumerate(matrix):
                 if line[0] > target:
