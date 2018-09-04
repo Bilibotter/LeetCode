@@ -21,6 +21,26 @@ class Solution:
         nums.extend([num for num, i in enumerate(count) for j in range(i)])
 
 
+# 模仿大神解
+class Solution:
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        num0 = 0
+        num2 = 0
+        for No, i in enumerate(nums):
+            if i == 0:
+                num0 += 1
+            elif i == 2:
+                num2 += 1
+            nums[No] = 1
+        nums[:num0] = [0 for i in range(num0)]
+        if num2:
+            nums[-num2:] = [2 for j in range(num2)]
+
+
 # 大神解法
 class Solution:
     def sortColors(self, nums):
@@ -30,7 +50,7 @@ class Solution:
         """
         # nums.sort()
         num0, num2 = 0, 0
-        for i,n in enumerate(nums):
+        for i, n in enumerate(nums):
             if n == 0:
                 num0 += 1
             if n == 2:
