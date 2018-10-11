@@ -1,5 +1,27 @@
+# 解决曾弃用解的逻辑漏洞，超越87.12%
+class Solution:
+    def maxPathSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        self.stack = []
+        num = self.maxSum(root)
+        self.stack.append(num)
+        return max(self.stack)
+
+    def maxSum(self, root):
+        i = root.val
+        r = self.maxSum(root.right) if root.right else -float('inf')
+        l = self.maxSum(root.left) if root.left else - float('inf')
+        self.stack.append(max(l+r+i, l, r))
+        return i+max(r, l, 0)
+
+
 # 仅超越74.84%...
 # 想哭
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -19,16 +41,12 @@ class Solution:
         return max(self.stack)
 
     def maxSum(self, root):
-        s = []
         i = root.val
-        if root.left:
-            s.append(self.maxSum(root.left))
-        if root.right:
-            s.append(self.maxSum(root.right))
-        s.append(i+sum(s))
-        self.stack.append(max(s))
-        s[-1] = 0
-        return i + max(s)
+        r = root.right if root.right else -float('inf')
+        l = root.left if root.left else - float('inf')
+        if r > 0:
+            self.stack.append(max(l+r+i, l, r))
+        return i+max(r, l, 0)
 
 
 s = Solution()
