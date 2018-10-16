@@ -1,0 +1,34 @@
+# Definition for a point.
+# class Point:
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+
+# 超越83.73%
+class Solution:
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if len(points) <= 2:
+            return len(points)
+        m_len = 0
+        while len(points) > m_len:
+            o = points.pop()
+            dic = {}
+            span = 1
+            for point in points:
+                if point.x == o.x:
+                    if point.y != o.y:
+                        dic['inf'] = 1 if 'inf' not in dic else dic['inf'] + 1
+                    else:
+                        span += 1
+                else:
+                    grad = str((point.y-o.y)/(point.x-o.x))
+                    dic[grad] = 1 if grad not in dic else dic[grad]+1
+            if dic:
+                m_len = max(max(dic.values())+span, m_len)
+            else:
+                m_len = max(span, m_len)
+        return m_len
