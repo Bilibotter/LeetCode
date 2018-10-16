@@ -1,6 +1,6 @@
 # LeetCode
 
-38道往后为hard，往前为medium
+37道往后为hard，往前为medium
 
 30道往后为大三写的
 
