@@ -3,6 +3,31 @@
 #     def __init__(self, a=0, b=0):
 #         self.x = a
 #         self.y = b
+# 逻辑优化后超越90.49%，之前为83.73%
+class Solution:
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if len(points) <= 2:
+            return len(points)
+        m_l = 0
+        while len(points) > m_l:
+            o = points.pop()
+            dic = {'inf': 0}
+            span = 1
+            for point in points:
+                if point.x == o.x:
+                    if point.y != o.y:
+                        dic['inf'] += 1
+                    else:
+                        span += 1
+                else:
+                    grad = str((point.y-o.y)/(point.x-o.x))
+                    dic[grad] = 1 if grad not in dic else dic[grad]+1
+            m_l = max(max(dic.values())+span, m_l)
+        return m_l
 
 # 超越83.73%
 class Solution:
