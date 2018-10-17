@@ -1,4 +1,5 @@
-# 仅超越70.29%
+# 终于超越82.26%
+# 回归正常水平
 class Solution:
     def longestValidParentheses(self, s):
         """
@@ -19,8 +20,8 @@ class Solution:
                 status = 0
             else:
                 continue
-        status = 0
-        count = 0
+        if status <= 0:
+            return max(res)
         for char in s[::-1]:
             status -= dic[char]
             count += 1
