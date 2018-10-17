@@ -1,13 +1,11 @@
-# 仅超越60.20%
+# 仅超越70.29%
 class Solution:
     def longestValidParentheses(self, s):
         """
         :type   s: str
         :rtype: int
         """
-        if '()' not in s:
-            return 0
-        res = []
+        res = [0]
         count = 0
         status = 0
         dic = {'(': 1, ')': -1}
