@@ -1,0 +1,56 @@
+# 超越87.10%
+class Solution:
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        self.raw = []
+        self.board = board
+        self.total = {str(i) for i in range(1, 10)}
+        self.cols = [set() for _ in range(9)]
+        self.rows = [set() for _ in range(9)]
+        self.grid = [[set() for i in range(3)] for j in range(3)]
+        for i, row in enumerate(board):
+            for j, point in enumerate(row):
+                if point == '.':
+                    self.raw.append((i, j))
+                else:
+                    self.rows[i].add(point)
+                    self.cols[j].add(point)
+                    self.grid[int(i/3)][int(j/3)].add(point)
+        i, j = self.raw.pop()
+        self.addEle(i, j)
+        board = self.board
+
+    def addEle(self, i, j):
+        """
+        :param i:
+        :param j:
+        :return:
+        """
+        i_ = int(i/3)
+        j_ = int(j/3)
+        avail = self.total.difference(self.grid[i_][j_].union(self.rows[i], self.cols[j]))
+        if not avail:
+            return False
+        else:
+            if not self.raw:
+                self.board[i][j] = avail.pop()
+                return True
+            else:
+                i0, j0 = self.raw.pop()
+                for num in avail:
+                    self.board[i][j] = num
+                    self.rows[i].add(num)
+                    self.cols[j].add(num)
+                    self.grid[i_][j_].add(num)
+                    if not self.addEle(i0, j0):
+                        self.rows[i].remove(num)
+                        self.cols[j].remove(num)
+                        self.grid[i_][j_].remove(num)
+                    else:
+                        return True
+
+                self.raw.append((i0, j0))
+                return False
