@@ -55,6 +55,56 @@ class Solution:
 
                 self.raw.append((i0, j0))
                 return False
+# 超越91.76%
+# 往下有带trick的解
+class Solution:
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        raw = []
+        total = {str(i) for i in range(1, 10)}
+        cols = [set() for _ in range(9)]
+        rows = [set() for _ in range(9)]
+        grid = [[set() for i in range(3)] for j in range(3)]
+        for i, row in enumerate(board):
+            for j, point in enumerate(row):
+                if point == '.':
+                    raw.append((i, j))
+                else:
+                    rows[i].add(point)
+                    cols[j].add(point)
+                    grid[int(i/3)][int(j/3)].add(point)
+        i, j = raw.pop()
+        
+        def addEle(i, j):
+            i_ = int(i/3)
+            j_ = int(j/3)
+            avail = total.difference(grid[i_][j_].union(rows[i], cols[j]))
+            if not avail:
+                return False
+            else:
+                if not raw:
+                    board[i][j] = avail.pop()
+                    return True
+                else:
+                    i0, j0 = raw.pop()
+                    for num in avail:
+                        board[i][j] = num
+                        rows[i].add(num)
+                        cols[j].add(num)
+                        grid[i_][j_].add(num)
+                        if not addEle(i0, j0):
+                            rows[i].remove(num)
+                            cols[j].remove(num)
+                            grid[i_][j_].remove(num)
+                        else:
+                            return True
+
+                    raw.append((i0, j0))
+                    return False
+        addEle(i, j)
 # 超越88.53%
 class Solution:
     def solveSudoku(self, board):
