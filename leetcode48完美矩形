@@ -1,0 +1,81 @@
+# 击败100.00%
+class Solution:
+    def isRectangleCover(self, rectangles):
+        """
+        :type rectangles: List[List[int]]
+        :rtype: bool
+        """
+        filters = set()
+        vet_angs = set()
+        all_points = set()
+
+        for points in rectangles:
+            i, j, k, l = points
+            v_a1 = (i, l)
+            v_a2 = (k, j)
+            p1 = (i, j)
+            p2 = (k, l)
+            vet_angs.add(v_a1)
+            vet_angs.add(v_a2)
+            all_points.add(p1)
+            all_points.add(p2)
+            fp = (i, j, k)
+            if fp not in filters:
+                filters.add(fp)
+            else:
+                return False
+        return len(all_points.difference(vet_angs)) == 2
+# 终于击败80.00%
+class Solution:
+    def isRectangleCover(self, rectangles):
+        """
+        :type rectangles: List[List[int]]
+        :rtype: bool
+        """
+        filters = set()
+        vet_angs = set()
+        all_points = set()
+
+        for points in rectangles:
+            i, j, k, l = points
+            v_a1 = (i, l)
+            v_a2 = (k, j)
+            p1 = (i, j)
+            p2 = (k, l)
+            vet_angs.add(v_a1)
+            vet_angs.add(v_a2)
+            all_points.add(p1)
+            all_points.add(p2)
+            fp = tuple(points)
+            if fp not in filters:
+                filters.add(fp)
+            else:
+                return False
+        return len(all_points.difference(vet_angs)) == 2
+# 仅击败66.7%.......
+class Solution:
+    def isRectangleCover(self, rectangles):
+        """
+        :type rectangles: List[List[int]]
+        :rtype: bool
+        """
+        filters = set()
+        vet_angs = set()
+        all_points = set()
+
+        for points in rectangles:
+            i, j, k, l = list(map(lambda x: str(x), points))
+            v_a1 = i + '|' + l
+            v_a2 = k + '|' + j
+            p1 = i + '|' + j
+            p2 = k + '|' + l
+            vet_angs.add(v_a1)
+            vet_angs.add(v_a2)
+            all_points.add(p1)
+            all_points.add(p2)
+            fp = i+j+k+l
+            if fp not in filters:
+                filters.add(fp)
+            else:
+                return False
+        return len(all_points.difference(vet_angs)) == 2
