@@ -1,0 +1,48 @@
+# 神烦众生平等系列
+# 以下有更快的c++思路，但受限于语言
+# 94.94%
+
+
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        if k == 0:
+            return nums
+        m = max(nums[:k])
+        ans = [m]
+        for i in range(k, len(nums)):
+            if nums[i] > m:
+                m = nums[i]
+            elif nums[i-k] == m:
+                m = max(nums[i-k+1:i+1])
+            ans.append(m)
+        return ans
+
+
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        if k == 0:
+            return []
+        nums = collections.deque(nums)
+        stack = collections.deque([nums.popleft() for i in range(k)])
+        m = max(stack)
+        a = [m]
+        while nums:
+            last = nums.popleft()
+            stack.popleft()
+            stack.append(last)
+            if last >= m:
+                m = last
+            else:
+                m = max(stack)
+            a.append(m)
+        return a
