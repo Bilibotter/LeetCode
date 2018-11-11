@@ -32,3 +32,16 @@ class Spricelutipricen:
             # b2为总和盈利
             if b2<a2+price:b2=a2+price
         return b2
+# 个人理解
+class Solution:
+    def maxProfit(self, prices):
+        mini = float('inf')
+        his = 0
+        miserly = -float('inf')
+        earn = 0
+        for price in prices:
+            mini = min(price, mini)
+            his = max(price-mini, his)
+            miserly = max(his-price, miserly)
+            earn = max(miserly+price, earn)
+        return earn
