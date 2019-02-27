@@ -1,3 +1,24 @@
+# 我真是蠢
+class Solution(object):
+    def maxEnvelopes(self, envelopes):
+        # 某大神简直不是人的trick
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        envelopes = [e[1] for e in envelopes]
+        def lengthOfLIS(nums):
+            tails = [0] * len(nums)
+            size = 0
+            for x in nums:
+                i, j = 0, size
+                while i != j:
+                    m = int((i + j) / 2)
+                    if tails[m] < x:
+                        i = m + 1
+                    else:
+                        j = m
+                tails[i] = x
+                size = max(i + 1, size)
+            return size
+        return lengthOfLIS(envelopes)
 # 最长递增子序列思想
 class Solution(object):
     def maxEnvelopes(self, envelopes):
