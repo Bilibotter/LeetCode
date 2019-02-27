@@ -1,0 +1,18 @@
+# 88.3%
+class Solution:
+    def minDistance(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        _1, _2 = len(word1)+1, len(word2)+1
+        dp = [[0 for j in range(_2)] for i in range(_1)]
+        for i in range(1, _1):
+            dp[i][0] = i
+        for j in range(1, _2):
+            dp[0][j] = j
+        for i in range(_1-1):
+            for j in range(_2-1):
+                dp[i+1][j+1] = dp[i][j] if word1[i] == word2[j] else min(dp[i+1][j], dp[i][j+1], dp[i][j])+1
+        return dp[-1][-1]
