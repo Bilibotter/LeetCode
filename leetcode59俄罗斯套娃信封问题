@@ -1,0 +1,26 @@
+# 最长递增子序列思想
+class Solution(object):
+    def maxEnvelopes(self, envelopes):
+        dic = collections.defaultdict(list)
+        for e in envelopes:
+            dic[e[0]].append(e[1])
+        dp = []
+        nums = sorted(dic.keys())
+        for num in nums:
+            dp.extend(sorted(dic[num], reverse=True))
+
+        def lengthOfLIS(nums):
+            tails = [0] * len(nums)
+            size = 0
+            for x in nums:
+                i, j = 0, size
+                while i != j:
+                    m = int((i + j) / 2)
+                    if tails[m] < x:
+                        i = m + 1
+                    else:
+                        j = m
+                tails[i] = x
+                size = max(i + 1, size)
+            return size
+        return lengthOfLIS(dp)
