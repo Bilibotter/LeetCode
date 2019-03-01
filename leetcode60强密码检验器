@@ -1,3 +1,4 @@
+# 击败100%
 class Solution(object):
     def strongPasswordChecker(self, s):
         divide = [0, 0, 0]
