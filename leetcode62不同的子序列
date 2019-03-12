@@ -1,0 +1,21 @@
+# 执行用时 : 88 ms, 在Distinct Subsequences的Python提交中击败了76.62% 的用户
+# 内存消耗 : 10.8 MB, 在Distinct Subsequences的Python提交中击败了71.43% 的用户
+class Solution(object):
+    def numDistinct(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: int
+        """
+        hh = t[0]
+        dp = [int(ch == hh) for ch in s]
+        for ch1 in t[1:]:
+            cumul = 0
+            for j, ch2 in enumerate(s):
+                v = dp[j]
+                cumul += v
+                if ch1 == ch2:
+                    dp[j] = cumul-v
+                else:
+                    dp[j] = 0
+        return sum(dp)
