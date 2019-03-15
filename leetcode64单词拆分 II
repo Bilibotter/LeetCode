@@ -1,0 +1,27 @@
+# 执行用时 : 32 ms, 在Word Break II的Python提交中击败了96.00% 的用户
+# 内存消耗 : 11 MB, 在Word Break II的Python提交中击败了0.00% 的用户
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        lens = sorted(list(set([len(word) for word in wordDict])))
+        dic = {l: set() for l in lens}
+        for word in wordDict:
+            dic[len(word)].add(word)
+        return self.find(s, dic, lens, {})
+
+    def find(self, s, dic, lens, memo):
+        # 最经典的一步,灵感来自于超越86.6%的算法,剩下的都是自己想的
+        if s in memo:
+            return memo[s]
+        res = []
+        sL = len(s)
+        for l in lens:
+            ch = s[:l]
+            if ch in dic[l]:
+                if l < sL:
+                    for word in self.find(s[l:], dic, lens, memo):
+                        res.append(ch + ' ' + word)
+                else:
+                    res.append(ch)
+                    break
+        memo[s] = res
+        return res
