@@ -1,0 +1,48 @@
+# 执行用时 :44 ms, 在所有 Python3 提交中击败了97.50%的用户
+# 内存消耗 :13 MB, 在所有 Python3 提交中击败了100.00%
+的用户
+class Solution(object):
+    def __init__(self):
+        self.dic = collections.defaultdict(int)
+
+    def show(self):
+        return "".join(k + str(v > 1 and int(v) or "") for k, v in sorted(self.dic.items()))
+
+    def countOfAtoms(self, formula):
+        formula = formula[::-1]
+        return self.countOfAtomsPlus(formula)
+
+    def countOfAtomsPlus(self, formula, fac=1, facs=[]):
+        if not formula:
+            self.show()
+        digit = ''
+        # ')'之前必有数字
+        while formula and formula[0] != ')':
+            if formula[0].isdigit():
+                digit += formula[0]
+            elif formula[0].isupper():
+                print('here')
+                digit = int(digit[::-1]) if digit else 1
+                self.dic[formula[0]] += fac * digit
+                digit = ''
+            elif formula[0].islower():
+                digit = int(digit[::-1]) if digit else 1
+                # 按倒序取头两个字母
+                self.dic[formula[1::-1]] += fac * digit
+                formula = formula[1:]
+                digit = ''
+            else:
+                # 减去一个乘子
+                fac /= facs.pop()
+            formula = formula[1:]
+        if not digit:
+            return self.show()
+        # 右括号的乘效果
+        # 去掉")"
+        if formula[0] == ')':
+            formula = formula[1:]
+            new_fac = int(digit[::-1])
+            fac *= new_fac
+            facs.append(new_fac)
+            return self.countOfAtomsPlus(formula, fac, facs)
+        return self.show()
