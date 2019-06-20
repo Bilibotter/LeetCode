@@ -1,0 +1,17 @@
+class Solution(object):
+    def longestConsecutive(self, nums):
+        nums.sort()
+        max_num=0
+        now_num = 0
+        before = -float('inf')
+        for num in nums:
+            dec = num - before
+            if dec == 1:
+                now_num += 1
+            elif not dec:
+                continue
+            else:
+                max_num = max_num if max_num > now_num else now_num
+                now_num = 1
+            before = num
+        return max(now_num, max_num)
