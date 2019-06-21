@@ -1,0 +1,56 @@
+# 吃了不够熟悉数据结构的亏没做出来
+# 看了大神题解，并进行毫不优雅的暴力优化
+# 执行用时 :272 ms, 在所有 Python 提交中击败了100.00%的用户
+# 内存消耗 :30 MB, 在所有 Python 提交中击败了75.79%的用户
+class Solution(object):
+    def findWords(self, board, words):
+        root = {}
+        trie = root
+        self.res = set()
+        self.height = len(board) - 1
+        self.width = len(board[0]) - 1
+        # 构造字典树
+        for word in words:
+            trie = root
+            for ch in word:
+                if not trie.get(ch, 0):
+                    trie[ch] = {}
+                trie = trie[ch]
+            trie['#'] = word
+
+        for i, line in enumerate(board):
+            for j, ch in enumerate(line):
+                if ch in root:
+                    board[i][j] = None
+                    self.getRes(root[ch], board, i, j)
+                    board[i][j] = ch
+
+        return list(self.res)
+
+    def getRes(self, trie, board, i, j):
+        if trie.get('#', 0):
+            self.res.add(trie['#'])
+        if i < self.height:
+            ch = board[i+1][j]
+            if ch in trie:
+                board[i+1][j] = None
+                self.getRes(trie[ch], board, i+1, j)
+                board[i+1][j] = ch
+        if i > 0:
+            ch = board[i-1][j]
+            if ch in trie:
+                board[i-1][j] = None
+                self.getRes(trie[ch], board, i-1, j)
+                board[i-1][j] = ch
+        if j > 0:
+            ch = board[i][j-1]
+            if ch in trie:
+                board[i][j-1] = None
+                self.getRes(trie[ch], board, i, j-1)
+                board[i][j-1] = ch
+        if j < self.width:
+            ch = board[i][j+1]
+            if ch in trie:
+                board[i][j+1] = None
+                self.getRes(trie[ch], board, i, j+1)
+                board[i][j+1] = ch
